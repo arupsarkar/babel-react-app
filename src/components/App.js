@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import {Box, Button, Card, Container, Paper} from "@mui/material";
 
 export default function App () {
 
@@ -55,16 +56,27 @@ export default function App () {
                     Welcome {user}
                 </div>
 
-                <div>
-                    <button onClick={onLogin}>
-                        Login
-                    </button>
-                </div>
+
 
                 <div>
-                    <button onClick={gotoCommunity}>
-                        Community
-                    </button>
+                    <Container maxWidth="sm">
+                        <Paper elevation={2}>
+                            <Button variant={"contained"} onClick={onLogin}>
+                                Login via Salesforce (OAuth)
+                            </Button>
+                        </Paper>
+                    </Container>
+
+
+                </div>
+                <div>
+                    <Container maxWidth="sm">
+                        <Paper elevation={2}>
+                            <Button variant={"contained"} onClick={gotoCommunity}>
+                                Login to Community
+                            </Button>
+                        </Paper>
+                    </Container>
                 </div>
             </div>
 
