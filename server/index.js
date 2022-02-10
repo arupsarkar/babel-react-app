@@ -95,6 +95,38 @@ app.get('/auth/callback', async (req, res, next) => {
     })
 })
 
+
+app.get('/auth/logout', async (req, res, next) => {
+    let status
+    const session = await getSession(req, res)
+    if(session == null) {
+        return
+    }
+    const conn = await resumeSalesforceConnection(session)
+    console.log('Access token ', conn.accessToken)
+    await conn.logout((error) => {
+        if(error) {
+            console.error('Salesforce OAuth revoke errors', JSON.stringify(error))
+            return
+        }
+
+    }).then(r => {
+        console.error('Salesforce OAuth revoke ', JSON.stringify(r))
+    })
+
+    // destroy server-side session
+    await session.destroy((error) => {
+        if(error) {
+            console.error('Salesforce session destruction error', JSON.stringify(error))
+        }else {
+            console.log('---> session destroyed...', session)
+        }
+    })
+
+    //Redirect to the app main page
+    return res.redirect('/index.html')
+})
+
 app.get('/getLoggedInUserInfo', async (req, res, next) => {
     const session = getSession(req, res)
     if(session == null) {

@@ -16,6 +16,11 @@ export default function App () {
         window.open('https://linkedin-customer-developer-edition.na85.force.com/css/s/', '_blank')
     }
 
+    const onLogout = (e) => {
+        e.preventDefault()
+        window.location = '/auth/logout'
+    }
+
     useEffect(() => {
         console.log('---> useEffect Start')
         let date_str = new Date()
@@ -78,6 +83,17 @@ export default function App () {
                         </Paper>
                     </Container>
                 </div>
+
+                <div>
+                    <Container maxWidth="sm">
+                        <Paper elevation={2}>
+                            <Button variant={"contained"} onClick={onLogout}>
+                                Logout
+                            </Button>
+                        </Paper>
+                    </Container>
+                </div>
+
             </div>
 
         )
