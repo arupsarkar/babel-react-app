@@ -16,6 +16,18 @@ app.get('/api', (req, res) => {
 app.get('/', (req, res) => {
     res.sendFile(HTML_FILE); // EDIT
 });
+
+app.get('/auth/login', (req, res, next) => {
+    console.log('inside auth login')
+    res.json({payload: 'from server auth login'})
+})
+
+app.get('/auth/callback', async (req, res, next) => {
+    console.log('inside auth callback')
+    res.send('auth callback')
+})
+
+
 app.listen(port, function () {
     console.log('App listening on port: ' + port);
 });
