@@ -5,6 +5,15 @@ export default function App () {
     const[data, setData] = useState('')
     const[user, setUser] = useState('')
 
+    const onLogin = (e) => {
+        e.preventDefault()
+        window.location = '/auth/login'
+    }
+
+    const gotoCommunity = (e) => {
+        e.preventDefault()
+        window.open('https://linkedin-customer-developer-edition.na85.force.com/css/s/', '_blank')
+    }
 
     useEffect(() => {
         console.log('---> useEffect Start')
@@ -19,13 +28,13 @@ export default function App () {
                 'Content-Type': 'application/json'
             }
         })
-        fetch('/auth/login', requestOptions)
+        fetch('/getLoggedInUserInfo', requestOptions)
             .then(res => {
                 console.log('---> res', res.status)
                 if(res.ok) {
                     res.json().then(server_data => {
                         console.log('---> data', JSON.stringify(server_data))
-                        setUser(server_data.payload)
+                        setUser(server_data.display_name)
                     })
                 }
             })
@@ -44,6 +53,18 @@ export default function App () {
                 {data} react app component
                 <div>
                     Welcome {user}
+                </div>
+
+                <div>
+                    <button onClick={onLogin}>
+                        Login
+                    </button>
+                </div>
+
+                <div>
+                    <button onClick={gotoCommunity}>
+                        Community
+                    </button>
                 </div>
             </div>
 
