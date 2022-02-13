@@ -1,7 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, {createContext, useEffect, useState} from "react";
 import {Box, Button, Card, Container, Paper} from "@mui/material";
 import BottomBar from "./BottomBar/BottomBar";
 import NavBar from "./NavigationBar/NavBar";
+
+export const UserContext = createContext()
 
 export default function App () {
         return(

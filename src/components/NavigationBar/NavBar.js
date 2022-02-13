@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {AppBar, Avatar, Box, Button, IconButton, Toolbar, Typography} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu'
 import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
+import {UserContext} from "../App";
 
 export default function NavBar () {
 
@@ -96,6 +97,7 @@ export default function NavBar () {
 
     return (
 
+
         <Box sx={{ flexGrow: 1}}>
             <AppBar position={"static"}>
                 <Toolbar>
@@ -113,7 +115,7 @@ export default function NavBar () {
                         component={"div"}
                         sx={{flexGrow: 1}}
                     >
-                        Date/Time: {data} User: {user}
+                        User: {user}
                     </Typography>
 
                     <Button
@@ -167,5 +169,6 @@ export default function NavBar () {
                 </Toolbar>
             </AppBar>
         </Box>
+
     )
 }
