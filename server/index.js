@@ -104,6 +104,19 @@ app.get('/auth/logout', async (req, res, next) => {
     }
     const conn = await resumeSalesforceConnection(session)
     console.log('Access token ', conn.accessToken)
+    //single logout
+    //get the current auth-session of the logged in user, delete all entries from AuthSession Object
+    const usersId = '0051U000000qNoDQAU'
+    conn.sobject('Single_logout_Event__e')
+        .create({UserId__c: usersId}, (err, ret) => {
+            if(err) {
+                console.error('---> error deleting data ', JSON.stringify(err))
+                return next()
+            }
+            console.log('--> Success', JSON.stringify(ret))
+        })
+
+    //now kill the web session
     await conn.logout((error) => {
         if(error) {
             console.error('Salesforce OAuth revoke errors', JSON.stringify(error))
