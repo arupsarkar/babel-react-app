@@ -1,15 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {Box, Button, Card, Container, Paper} from "@mui/material";
+import BottomBar from "./BottomBar/BottomBar";
+import NavBar from "./NavigationBar/NavBar";
 
 export default function App () {
 
     const[data, setData] = useState('')
     const[user, setUser] = useState('')
 
-    const onLogin = (e) => {
-        e.preventDefault()
-        window.location = '/auth/login'
-    }
 
     const gotoCommunity = (e) => {
         e.preventDefault()
@@ -55,7 +53,10 @@ export default function App () {
     },[data, user])
 
         return(
+
+
             <div>
+                <NavBar/>
                 {data} react app component
                 <div>
                     Welcome {user}
@@ -64,13 +65,7 @@ export default function App () {
 
 
                 <div>
-                    <Container maxWidth="sm">
-                        <Paper elevation={2}>
-                            <Button variant={"contained"} onClick={onLogin}>
-                                Login via Salesforce (OAuth)
-                            </Button>
-                        </Paper>
-                    </Container>
+
 
 
                 </div>
@@ -92,6 +87,9 @@ export default function App () {
                             </Button>
                         </Paper>
                     </Container>
+                </div>
+                <div>
+                    <BottomBar/>
                 </div>
 
             </div>
