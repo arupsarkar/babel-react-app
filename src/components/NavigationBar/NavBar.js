@@ -1,14 +1,46 @@
 import React, {useEffect, useState} from "react";
-import {AppBar, Box, Button, IconButton, Toolbar, Typography} from "@mui/material";
+import {AppBar, Avatar, Box, Button, IconButton, Toolbar, Typography} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu'
+import { styled } from '@mui/material/styles';
+import Badge from '@mui/material/Badge';
 
 export default function NavBar () {
 
     const[data, setData] = useState('')
-    const[user, setUser] = useState('')
+    const[user, setUser] = useState(null)
     const[userId, setUserId] = useState('')
     const[btnEnabled, setBtnEnabled] = useState(false)
+    const[avatarUrl, setAvatarUrl] = useState('')
 
+
+    const StyledBadge = styled(Badge)(({ theme }) => ({
+        '& .MuiBadge-badge': {
+            backgroundColor: '#44b700',
+            color: '#44b700',
+            boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+            '&::after': {
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                borderRadius: '50%',
+                animation: 'ripple 1.2s infinite ease-in-out',
+                border: '1px solid currentColor',
+                content: '""',
+            },
+        },
+        '@keyframes ripple': {
+            '0%': {
+                transform: 'scale(.8)',
+                opacity: 1,
+            },
+            '100%': {
+                transform: 'scale(2.4)',
+                opacity: 0,
+            },
+        },
+    }));
 
     const onLogin = (e) => {
         e.preventDefault()
@@ -48,6 +80,7 @@ export default function NavBar () {
                         setUser(server_data.display_name)
                         setBtnEnabled(true)
                         setUserId(server_data.user_id)
+                        setAvatarUrl(server_data.photos.picture)
                     })
                 }
             })
@@ -106,6 +139,31 @@ export default function NavBar () {
                     >
                         Logout
                     </Button>
+
+
+                    {btnEnabled &&
+                        <StyledBadge
+                            overlap="circular"
+                            anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
+                            variant="dot"
+                        >
+                            <Avatar
+                                alt={user}
+                                src={avatarUrl}
+                            >
+                            </Avatar>
+                        </StyledBadge>
+                    }
+                    {
+                        !btnEnabled &&
+                            <Avatar
+                                alt={user}
+                                src={avatarUrl}
+                            >
+
+                            </Avatar>
+                    }
+
                 </Toolbar>
             </AppBar>
         </Box>
