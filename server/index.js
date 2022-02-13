@@ -106,15 +106,25 @@ app.get('/auth/logout', async (req, res, next) => {
     console.log('Access token ', conn.accessToken)
     //single logout
     //get the current auth-session of the logged in user, delete all entries from AuthSession Object
-    const usersId = '0051U000000qNoDQAU'
-    conn.sobject('Single_logout_Event__e')
-        .create({UserId__c: usersId}, (err, ret) => {
-            if(err) {
-                console.error('---> error deleting data ', JSON.stringify(err))
-                return next()
-            }
-            console.log('--> Success', JSON.stringify(ret))
-        })
+
+    await conn.identity((error, response) => {
+        if(error) {
+            console.error('Cannot get user info', JSON.stringify(error))
+        }
+        console.log('---> user info ', JSON.stringify(response))
+        //res.json(response)
+        const usersId = response.user_id
+        console.log('---> user id ', usersId)
+        //insert into platform event
+        conn.sobject('Single_logout_Event__e')
+            .create({UserId__c: usersId}, (err, ret) => {
+                if(err) {
+                    console.error('---> error deleting data ', JSON.stringify(err))
+                    return next()
+                }
+                console.log('--> Success', JSON.stringify(ret))
+            })
+    })
 
     //now kill the web session
     await conn.logout((error) => {
