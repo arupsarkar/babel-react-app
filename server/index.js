@@ -164,6 +164,7 @@ app.get('/getLoggedInUserInfo', async (req, res, next) => {
             console.error('Cannot get user info', JSON.stringify(error))
             return next()
         }
+        res.json(response)
     })
         .then(data => {
             console.log('---> THEN > user info ', JSON.stringify(data))
