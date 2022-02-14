@@ -151,11 +151,12 @@ app.get('/auth/logout', async (req, res, next) => {
 })
 
 app.get('/getLoggedInUserInfo', async (req, res, next) => {
-    const session = getSession(req, res)
+    const session = await getSession(req, res)
+    console.log('---> session ', session)
     if(session == null) {
         return
     }
-    const conn = resumeSalesforceConnection(session)
+    const conn = await resumeSalesforceConnection(session)
     await conn.identity((error, response) => {
         if(error) {
             console.error('Cannot get user info', JSON.stringify(error))
