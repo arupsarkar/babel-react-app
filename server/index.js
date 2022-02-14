@@ -163,20 +163,18 @@ app.get('/getLoggedInUserInfo', async (req, res, next) => {
         await conn.identity((error, response) => {
             if(error) {
                 console.error('Cannot get user info', JSON.stringify(error))
-                res.redirect('/index.html')
+                return next()
             }
-            console.log('---> user info ', JSON.stringify(response))
-            res.json(response)
         })
             .then(data => {
-                console.log('---> user info ', JSON.stringify(data))
+                console.log('---> THEN > user info ', JSON.stringify(data))
         })
             .catch(ex => {
-                console.log('---> user info ', JSON.stringify(ex))
+                console.log('---> CATCH > user info ', JSON.stringify(ex))
             })
     }catch(e) {
-        console.log('---> user info error ', JSON.stringify(e))
-        res.redirect('/index.html')
+        console.log('---> try catch user info error ', JSON.stringify(e))
+        return next()
     }
 
 })
