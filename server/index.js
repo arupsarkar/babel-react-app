@@ -157,14 +157,18 @@ app.get('/getLoggedInUserInfo', async (req, res, next) => {
         return
     }
     const conn = await resumeSalesforceConnection(session)
-    await conn.identity((error, response) => {
-        if(error) {
-            console.error('Cannot get user info', JSON.stringify(error))
-            return next()
-        }
-        console.log('---> user info ', JSON.stringify(response))
-        res.json(response)
-    })
+    console.log('---> checking conn ', conn)
+    if(conn) {
+        await conn.identity((error, response) => {
+            if(error) {
+                console.error('Cannot get user info', JSON.stringify(error))
+                return next()
+            }
+            console.log('---> user info ', JSON.stringify(response))
+            res.json(response)
+        })
+    }
+
 })
 
 
