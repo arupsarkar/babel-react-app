@@ -151,31 +151,52 @@ app.get('/auth/logout', async (req, res, next) => {
 })
 
 app.get('/getLoggedInUserInfo', async (req, res, next) => {
+
+
     const session = await getSession(req, res)
-    console.log('---> session ', session)
     if(session == null) {
         return
     }
     const conn = await resumeSalesforceConnection(session)
     console.log('---> checking conn ', conn)
+    await conn.identity((error, response) => {
+        if(error) {
+            console.error('Cannot get user info', JSON.stringify(error))
+            return next()
+        }
+    })
+        .then(data => {
+            console.log('---> THEN > user info ', JSON.stringify(data))
+        })
+        .catch(ex => {
+            console.log('---> CATCH > user info ', JSON.stringify(ex))
+        })
 
-    try{
-        await conn.identity((error, response) => {
-            if(error) {
-                console.error('Cannot get user info', JSON.stringify(error))
-                return next()
-            }
-        })
-            .then(data => {
-                console.log('---> THEN > user info ', JSON.stringify(data))
-        })
-            .catch(ex => {
-                console.log('---> CATCH > user info ', JSON.stringify(ex))
-            })
-    }catch(e) {
-        console.log('---> try catch user info error ', JSON.stringify(e))
-        return next()
-    }
+    // const session = await getSession(req, res)
+    // console.log('---> session ', session)
+    // if(session == null) {
+    //     return
+    // }
+    // const conn = await resumeSalesforceConnection(session)
+    // console.log('---> checking conn ', conn)
+    //
+    // try{
+    //     await conn.identity((error, response) => {
+    //         if(error) {
+    //             console.error('Cannot get user info', JSON.stringify(error))
+    //             return next()
+    //         }
+    //     })
+    //         .then(data => {
+    //             console.log('---> THEN > user info ', JSON.stringify(data))
+    //     })
+    //         .catch(ex => {
+    //             console.log('---> CATCH > user info ', JSON.stringify(ex))
+    //         })
+    // }catch(e) {
+    //     console.log('---> try catch user info error ', JSON.stringify(e))
+    //     return next()
+    // }
 
 })
 
