@@ -3,7 +3,8 @@ import {AppBar, Avatar, Box, Button, IconButton, Toolbar, Typography} from "@mui
 import MenuIcon from '@mui/icons-material/Menu'
 import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
-import {UserContext} from "../App";
+import { useSelector, useDispatch } from "react-redux";
+import { logged_in, logged_out } from "../../features/user/userSlice";
 
 export default function NavBar () {
 
@@ -13,6 +14,8 @@ export default function NavBar () {
     const[btnEnabled, setBtnEnabled] = useState(false)
     const[avatarUrl, setAvatarUrl] = useState('')
 
+    const user_status = useSelector((state) => state.user.active)
+    const dispatch = useDispatch()
 
     const StyledBadge = styled(Badge)(({ theme }) => ({
         '& .MuiBadge-badge': {
@@ -60,7 +63,7 @@ export default function NavBar () {
     }
 
     useEffect(() => {
-        console.log('---> useEffect Start')
+        console.log('---> useEffect Start, status ', user_status ? 'On' : 'Off')
         let date_str = new Date()
         //date_str = `${date_str.getFullYear()}-${date_str.getMonth() + 1}-${date_str.getDate()}`
         setData(date_str.toString())
@@ -82,6 +85,8 @@ export default function NavBar () {
                         setBtnEnabled(true)
                         setUserId(server_data.user_id)
                         setAvatarUrl(server_data.photos.picture)
+
+                        dispatch(logged_in(server_data))
                     })
                 }
             })
@@ -115,7 +120,7 @@ export default function NavBar () {
                         component={"div"}
                         sx={{flexGrow: 1}}
                     >
-                        User: {user}
+                        User: {user} {user_status ? 'On' : 'Off'}
                     </Typography>
 
                     <Button

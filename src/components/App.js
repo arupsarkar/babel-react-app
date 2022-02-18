@@ -1,16 +1,18 @@
-import React, {createContext, useEffect, useState} from "react";
-import {Box, Button, Card, Container, Paper} from "@mui/material";
+import React from "react";
 import BottomBar from "./BottomBar/BottomBar";
 import NavBar from "./NavigationBar/NavBar";
+import store from "../store/store";
+import { Provider } from "react-redux";
 
-export const UserContext = createContext()
 
 export default function App () {
         return(
-            <div>
-                <NavBar/>
-                <BottomBar/>
-            </div>
+            <Provider store={store}>
+                <div>
+                    <NavBar/>
+                    <BottomBar/>
+                </div>
+            </Provider>
         )
 }
 
